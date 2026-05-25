@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Departments - FJWU Navigator</title>
+    
+    <!-- FONT AWESOME ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* RESET & BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Tahoma', sans-serif;
+        }
+        
+        body {
+            background: #f8f9fa;
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        /* HEADER */
+        .search-header {
+            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* RIGHT SIDE LOGO */
+        .logo-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .logo-image-small {
+            width: 35px;
+            height: 35px;
+            border-radius: 6px;
+            object-fit: contain;
+            border: 2px solid white;
+        }
+
+        .logo-text-right h1 {
+            font-size: 16px;
+            color: white;
+            margin-bottom: 2px;
+            white-space: nowrap;
+        }
+
+        .logo-text-right p {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            font-size: 24px;
+            background: white;
+            color:#2E7D32;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-text h1 {
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+        
+        .logo-text p {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        /* MAIN SEARCH SECTION */
+        .search-main {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 30px;
+            width: 95%;
+        }
+        
+        .results-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            margin-top: 25px;
+            width: 100%;
+        }
+
+        /* RESULTS GRID */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        /* DEPARTMENT CARDS */
+        .dept-card {
+            background: #f8f9ff;
+            border-radius: 12px;
+            padding: 18px;
+            border-left: 5px solid #2E7D32;
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: auto;
+            min-height: 180px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dept-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+        }
+        
+        .search-box-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+        
+        .search-title {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #2E7D32;
+        }
+        
+        .search-title h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .search-title p {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        /* SEARCH BAR */
+        .search-bar-wrapper {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        
+        .search-bar {
+            width: 100%;
+            padding: 18px 25px;
+            font-size: 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .search-bar:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 20px;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #2E7D32;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* LIVE SEARCH SUGGESTIONS */
+        .suggestions-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin-top: 5px;
+            z-index: 10;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .suggestion-item {
+            padding: 15px 25px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: background 0.2s;
+        }
+        
+        .suggestion-item:hover {
+            background: #f8f9ff;
+        }
+        
+       .suggestion-icon {
+    color: #2E7D32;
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+}
+        
+        /* FILTERS */
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* FILTER BUTTONS */
+        .filter-btn {
+            background: white;
+            border: 2px solid #2E7D32;
+            color: #2E7D32;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(46, 125, 50, 0.1);
+        }
+
+        .filter-btn:hover {
+            background: #E8F5E9;
+            border-color: #2E7D32;
+            color: #2E7D32;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(27, 94, 32, 0.15);
+        }
+
+        .filter-btn.active {
+            background: #2E7D32;
+            border-color: #2E7D32;
+            color: white;
+            box-shadow: 0 4px 10px rgba(46, 125, 50, 0.25);
+        }
+
+        .filter-btn.active:hover {
+            background: #1B5E20;
+            border-color: #1B5E20;
+        }
+        
+        /* FEEDBACK BUTTON (ALAG) */
+        .feedback-btn {
+            background: #FF6B6B;
+            border: 2px solid #FF6B6B;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(255, 107, 107, 0.2);
+        }
+
+        .feedback-btn:hover {
+            background: #FF5252;
+            border-color: #FF5252;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
+        }
+        
+        /* SEARCH BUTTON */
+        .search-action {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .search-btn {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .search-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+        }
+        
+        /* DEPARTMENT CARD CONTENT */
+       .dept-icon {
+    font-size: 32px !important; /* Font Awesome icons ke liye size */
+    margin-bottom: 10px;
+    color: #2E7D32; /* Green color for icons */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+}
+
+.dept-icon i {
+    font-size: 32px;
+}
+        
+        .dept-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .dept-location {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 10px;
+            flex-grow: 1;
+        }
+        
+        .guide-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+            align-self: flex-start;
+        }
+        
+        .guide-btn:hover {
+            background: #2E7D32;
+        }
+        
+        /* FEEDBACK MODAL */
+        .feedback-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            color: white;
+            margin: 0;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        /* RATING STARS */
+        .rating-stars {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .star {
+            font-size: 32px;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .star:hover,
+        .star.active {
+            color: #FFD700;
+        }
+
+        /* FORM STYLES */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        textarea.form-input {
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2E7D32;
+        }
+
+        .btn-secondary {
+            background: #f1f1f1;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #ddd;
+        }
+
+        /* SUCCESS MESSAGE */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .success-icon {
+            font-size: 48px;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+
+        .success-message h3 {
+            color: #2E7D32;
+            margin-bottom: 10px;
+        }
+        
+        /* ANIMATIONS */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        /* RESULTS TITLE */
+        .results-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: #2E7D32;
+        }
+        
+        .results-title span {
+            font-size: 24px;
+        }
+        
+        .results-title h3 {
+            font-size: 22px;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <!-- HEADER -->
+<header class="search-header">
+    <div class="header-container">
+        <button class="back-btn" onclick="goToHome()">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </button>
+        
+        <!-- LOGO ON RIGHT SIDE -->
+        <div class="logo-right">
+            <img src="images/fjwu_logo.jpg" 
+                 alt="FJWU Logo" 
+                 class="logo-image-small">
+            <div class="logo-text-right">
+                <h1>Department Search</h1>
+                <p>Find any campus location</p>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <!-- MAIN SEARCH AREA -->
+    <main class="search-main">
+        <div class="search-box-container fade-in">
+            <div class="search-title">
+                <h2>Search Campus Departments</h2>
+                <p>Type department name, building, or use filters</p>
+            </div>
+            
+            <!-- SEARCH BAR WITH SUGGESTIONS -->
+            <div class="search-bar-wrapper">
+    <input type="text" 
+           class="search-bar" 
+           id="searchInput" 
+           placeholder="Example: Computer Science, Library, Administration..."
+           autocomplete="off">
+    <div class="search-icon">
+        <i class="fas fa-search"></i>
+    </div>
+                
+               <!-- LIVE SUGGESTIONS DROPDOWN -->
+    <div class="suggestions-dropdown" id="suggestionsBox"></div>
+</div>
+            <!-- FILTERS AND FEEDBACK BUTTON -->
+          <!-- FILTERS AND FEEDBACK BUTTON -->
+<div class="filters">
+    <button class="filter-btn active" data-filter="all">
+        <i class="fas fa-star"></i> All
+    </button>
+    <button class="filter-btn" data-filter="academic">
+        <i class="fas fa-graduation-cap"></i> Academic
+    </button>
+    <button class="filter-btn" data-filter="services">
+        <i class="fas fa-concierge-bell"></i> Student Services
+    </button>
+    
+    <!-- FEEDBACK BUTTON (ALAG) -->
+    <button class="feedback-btn" id="feedbackBtn">
+        <i class="fas fa-comment-dots"></i> Feedback
+    </button>
+</div>
+           <!-- SEARCH BUTTON -->
+<div class="search-action">
+    <button class="search-btn" id="searchButton">
+        <i class="fas fa-search"></i> Search Department
+    </button>
+</div>
+        
+      <!-- RESULTS SECTION -->
+<div class="results-section" id="resultsSection">
+    <div class="results-title">
+        <span><i class="fas fa-clipboard-list"></i></span>
+        <h3>Search Results</h3>
+    </div>
+    <div class="results-grid" id="resultsGrid">
+        <!-- Results will be added here by JavaScript -->
+    </div>
+</div>
+
+    <!-- FEEDBACK MODAL -->
+    <div class="feedback-modal" id="feedbackModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Share Your Feedback</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="feedbackForm">
+                    <!-- Rating -->
+                    <div class="form-group">
+                        <label>How would you rate our service?</label>
+                        <div class="rating-stars">
+                            <span class="star" data-rating="1">★</span>
+                            <span class="star" data-rating="2">★</span>
+                            <span class="star" data-rating="3">★</span>
+                            <span class="star" data-rating="4">★</span>
+                            <span class="star" data-rating="5">★</span>
+                        </div>
+                        <input type="hidden" id="rating" name="rating" value="0">
+                    </div>
+                    
+                    <!-- Feedback Type -->
+                    <div class="form-group">
+                        <label>Feedback Type</label>
+                        <select name="type" id="feedbackType" class="form-input">
+                            <option value="suggestion">Suggestion</option>
+                            <option value="bug">Bug Report</option>
+                            <option value="compliment">Compliment</option>
+                            <option value="question">Question</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Message -->
+                    <div class="form-group">
+                        <label>Your Feedback</label>
+                        <textarea name="message" id="feedbackMessage" 
+                                  class="form-input" 
+                                  rows="4" 
+                                  placeholder="Share your thoughts, suggestions, or report issues..."></textarea>
+                    </div>
+                    
+                    <!-- Email (Optional) -->
+                    <div class="form-group">
+                        <label>Email (Optional - for response)</label>
+                        <input type="email" name="email" id="feedbackEmail" 
+                               class="form-input" 
+                               placeholder="you@example.com">
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            Submit Feedback
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="cancelFeedback">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+                
+                <!-- Success Message -->
+                <div class="success-message" id="successMessage">
+                    <div class="success-icon">✓</div>
+                    <h3>Thank You!</h3>
+                    <p>Your feedback has been submitted successfully.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // =====================
+        // SCAN QR FOR DEPARTMENT
+        // =====================
+ function scanQRForDepartment(deptId) {
+    const dept = departments.find(d => d.id === deptId);
+    
+    if (!dept) {
+        alert('Department not found!');
+        return;
+    }
+    
+    // Map department name to QR code
+    const qrCodeMap = {
+        "Environmental Sciences Department": "ENV019",
+        "Prayer Room": "PRY020",
+        "Sports & Gymnasium": "SPT005",
+        "Department of Islamiyat": "ISL006",
+        "Department of Media": "MED007",
+        "Main Building": "MBD008",
+        "VC Lawn": "VCL009",
+        "Department of Economics & Finance": "ECF010",
+        "Department of Chemistry": "CHE011",
+        "Print Shop": "PRT012",
+        "Cafeteria": "CAF013",
+        "Transport Office": "TRN014",
+        "BIC Building": "BIC015",
+        "Hostel": "HST016",
+        "ICT Lab": "ICT017",
+        "New Auditorium": "AUD018"
+    };
+    
+    const qrCode = qrCodeMap[dept.name] || "CCS001"; // Default fallback
+    
+    localStorage.setItem('scanForDepartment', JSON.stringify({
+        id: dept.id,
+        name: dept.name,
+        qrCode: qrCode,
+        timestamp: new Date().toISOString()
+    }));
+    
+    window.location.href = 'scanner.html';
+}
+// =====================
+// DEPARTMENTS DATABASE (UPDATED WITH FONT AWESOME)
+// =====================
+const departments = [
+    // ACADEMIC DEPARTMENTS
+    { id: 1, name: "Computer Science Department", location: "S-Block, Ground Floor", type: "academic", icon: "<i class='fas fa-laptop-code'></i>" },
+    { id: 2, name: "Psychology Department", location: "Chakri Campus", type: "academic", icon: "<i class='fas fa-brain'></i>" },
+    { id: 3, name: "Education Department", location: "Education Block, 2nd Floor", type: "academic", icon: "<i class='fas fa-graduation-cap'></i>" },
+    { id: 19, name: "Computer Arts Department", location: "Arts Block, 1st Floor", type: "academic", icon: "<i class='fas fa-palette'></i>" },
+    { id: 20, name: "Behavioral Sciences Department", location: "Education Building, 2nd Floor", type: "academic", icon: "<i class='fas fa-flask'></i>" },
+    { id: 21, name: "International Relations Department", location: "Infront Of S-Block, Ground Floor", type: "academic", icon: "<i class='fas fa-globe-americas'></i>" },
+    { id: 22, name: "Gender Studies Department", location: "Behind IR Building , 1st Floor", type: "academic", icon: "<i class='fas fa-balance-scale'></i>" },
+    { id: 23, name: "Islamic Studies Department", location: "Infront of Education , !st Floor", type: "academic", icon: "<i class='fas fa-mosque'></i>" },
+    { id: 24, name: "English Department", location: "Education Building, 2nd Floor", type: "academic", icon: "<i class='fas fa-book'></i>" },
+    { id: 25, name: "Software Engineering Department", location: "S-Block , Basement", type: "academic", icon: "<i class='fas fa-code'></i>" },
+    { id: 26, name: "Business Administration Department", location: "S-Block, 1st Floor", type: "academic", icon: "<i class='fas fa-chart-line'></i>" },
+    { id: 27, name: "Public Administration Department", location: "S-Block, 2nd Floor", type: "academic", icon: "<i class='fas fa-landmark'></i>" },
+    { id: 28, name: "Media Studies Department", location: "Infront of Education Building, Ground Floor", type: "academic", icon: "<i class='fas fa-film'></i>" },
+    { id: 29, name: "Chemistry Department", location: "Infront of Student Gate,Ground floor", type: "academic", icon: "<i class='fas fa-vial'></i>" },
+    { id: 30, name: "Finance & Economics Department", location: "Infrony of S-Block,1st Floor", type: "academic", icon: "<i class='fas fa-money-bill-wave'></i>" },
+    { id: 31, name: "Environmental Sciences Department", location: "Infront of Student Gate,Ground floor", type: "academic", icon: "<i class='fas fa-leaf'></i>" },
+    { id: 32, name: "Law Department", location: "Chakri Campus", type: "academic", icon: "<i class='fas fa-gavel'></i>" },
+    { id: 33, name: "Physics Department", location: "Chakri Campus", type: "academic", icon: "<i class='fas fa-atom'></i>" },
+    { id: 34, name: "Public Health & Allied Sciences Department", location: "Chakri Campus", type: "academic", icon: "<i class='fas fa-hospital'></i>" },
+    { id: 35, name: "Electronic Engineering Department", location: "Chakri Campus", type: "academic", icon: "<i class='fas fa-bolt'></i>" },
+    
+    // STUDENT SERVICES
+    { id: 4, name: "Sports & Gymnasium", location: "Near Student Gate, Sports Complex", type: "services", icon: "<i class='fas fa-dumbbell'></i>" },
+    { id: 5, name: "Library", location: "Education Building, Ground Floor", type: "services", icon: "<i class='fas fa-book-reader'></i>" },
+    { id: 6, name: "Student Cafeteria", location: "Near Main Gate", type: "services", icon: "<i class='fas fa-coffee'></i>" },
+    { id: 7, name: "VC Lawn", location: "Infront Of Main Building", type: "services", icon: "<i class='fas fa-tree'></i>" },
+    { id: 8, name: "BiC Building", location: "Hostel Building ,Ground Floor", type: "services", icon: "<i class='fas fa-building'></i>" },
+    { id: 9, name: "Student Hostels", location: "Residential Area for Students", type: "services", icon: "<i class='fas fa-bed'></i>" },
+    { id: 10, name: "Main Building", location: "Central Administration", type: "services", icon: "<i class='fas fa-university'></i>" },
+    { id: 11, name: "Print Shop", location: "Near Main Gate", type: "services", icon: "<i class='fas fa-print'></i>" },
+    { id: 12, name: "IT Centre", location: "Near VC Lawn, Parking Area", type: "services", icon: "<i class='fas fa-desktop'></i>" },
+    { id: 13, name: "Transport Office", location: "Near VC Lawn, Parking Area", type: "services", icon: "<i class='fas fa-bus'></i>" },
+    { id: 36, name: "MP Hall (Multi-Purpose Hall)", location: "Education Building, Ground Floor", type: "services", icon: "<i class='fas fa-theater-masks'></i>" },
+    
+    // FACILITIES
+    { id: 14, name: "Health Center", location: "Hostel Building " ,type: "facilities", icon: "<i class='fas fa-clinic-medical'></i>" },
+    
+    // NEW ADDED
+    { id: 37, name: "Prayer Room", location: "Education Building, Ground Floor", type: "facilities", icon: "<i class='fas fa-pray'></i>" }
+];
+            // ADMINISTRATION
+           
+
+        // ===================== { id: 37, name: "Prayer Room", location: "Education Building, Ground Floor", type: "facilities", icon: "🕌" }
+        // DOM ELEMENTS
+        // =====================
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const suggestionsBox = document.getElementById('suggestionsBox');
+        const resultsSection = document.getElementById('resultsSection');
+        const resultsGrid = document.getElementById('resultsGrid');
+        
+        // SIRF FILTER WALE BUTTONS (FEEDBACK WALA NAHI)
+        const filterButtons = document.querySelectorAll('.filter-btn[data-filter]');
+        
+        let activeFilter = 'all';
+
+        // =====================
+        // DOM FEATURE 1: LIVE SEARCH SUGGESTIONS
+        // =====================
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            
+            if (query.length === 0) {
+                suggestionsBox.style.display = 'none';
+                return;
+            }
+            
+            const filtered = departments.filter(dept => 
+                dept.name.toLowerCase().includes(query) || 
+                dept.location.toLowerCase().includes(query)
+            ).slice(0, 5);
+            
+            if (filtered.length === 0) {
+                suggestionsBox.innerHTML = `
+                    <div class="suggestion-item">
+                        <span class="suggestion-icon">🔍</span>
+                        <span>No departments found. Try different keywords.</span>
+                    </div>
+                `;
+            } else {
+                suggestionsBox.innerHTML = filtered.map(dept => `
+                    <div class="suggestion-item" 
+                         onclick="selectSuggestion('${dept.name}')">
+                        <span class="suggestion-icon">${dept.icon}</span>
+                        <div>
+                            <div style="font-weight: bold;">${dept.name}</div>
+                            <div style="font-size: 12px; color: #666;">${dept.location}</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            suggestionsBox.style.display = 'block';
+        });
+
+        function selectSuggestion(deptName) {
+            searchInput.value = deptName;
+            suggestionsBox.style.display = 'none';
+            performSearch();
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
+                suggestionsBox.style.display = 'none';
+            }
+        });
+
+        // =====================
+        // DOM FEATURE 2: FILTER BUTTONS (THEEK KIYA HUA)
+        // =====================
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                activeFilter = this.dataset.filter;
+                performSearch();
+            });
+        });
+
+        // =====================
+        // DOM FEATURE 3: SEARCH FUNCTION
+        // =====================
+        function performSearch() {
+            const query = searchInput.value.toLowerCase().trim();
+            
+            let filteredDepts = departments;
+            
+            if (query) {
+                filteredDepts = filteredDepts.filter(dept => 
+                    dept.name.toLowerCase().includes(query) || 
+                    dept.location.toLowerCase().includes(query)
+                );
+            }
+            
+            if (activeFilter !== 'all') {
+                filteredDepts = filteredDepts.filter(dept => 
+                    dept.type === activeFilter
+                );
+            }
+            
+            displayResults(filteredDepts);
+        }
+
+        // =====================
+        // DOM FEATURE 4: DISPLAY RESULTS
+        // =====================
+      function displayResults(depts) {
+    if (depts.length === 0) {
+        resultsGrid.innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #666;">
+                <div style="font-size: 48px; margin-bottom: 10px;"><i class="fas fa-search"></i></div>
+                <h3>No departments found</h3>
+                <p>Try different keywords or filters</p>
+            </div>
+        `;
+    } else {
+        resultsGrid.innerHTML = depts.map(dept => `
+            <div class="dept-card">
+                <div class="dept-icon">${dept.icon}</div>
+                <div class="dept-name">${dept.name}</div>
+                <div class="dept-location">📍 ${dept.location}</div>
+                <button class="guide-btn" onclick="scanQRForDepartment(${dept.id})">
+                    <i class="fas fa-qrcode"></i> Scan QR for Guide
+                </button>
+            </div>
+        `).join('');
+    }
+    
+    resultsSection.style.display = 'block';
+    resultsSection.classList.add('fade-in');
+}
+
+        // =====================
+        // EVENT LISTENERS
+        // =====================
+        searchButton.addEventListener('click', performSearch);
+        
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // =====================
+        // OTHER FUNCTIONS
+        // =====================
+        function goToHome() {
+            window.location.href = 'index.html';
+        }
+
+        // =====================
+        // FEEDBACK SYSTEM
+        // =====================
+        const feedbackBtn = document.getElementById('feedbackBtn');
+        const feedbackModal = document.getElementById('feedbackModal');
+        const closeModal = document.getElementById('closeModal');
+        const cancelFeedback = document.getElementById('cancelFeedback');
+        const feedbackForm = document.getElementById('feedbackForm');
+        const successMessage = document.getElementById('successMessage');
+        const stars = document.querySelectorAll('.star');
+        const ratingInput = document.getElementById('rating');
+
+        // Open Feedback Modal
+        feedbackBtn.addEventListener('click', () => {
+            feedbackModal.style.display = 'flex';
+        });
+
+        // Close Modal Functions
+        closeModal.addEventListener('click', () => {
+            feedbackModal.style.display = 'none';
+            resetForm();
+        });
+
+        cancelFeedback.addEventListener('click', () => {
+            feedbackModal.style.display = 'none';
+            resetForm();
+        });
+
+        feedbackModal.addEventListener('click', (e) => {
+            if (e.target === feedbackModal) {
+                feedbackModal.style.display = 'none';
+                resetForm();
+            }
+        });
+
+        // Star Rating System
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const rating = star.dataset.rating;
+                ratingInput.value = rating;
+                
+                stars.forEach((s, index) => {
+                    if (index < rating) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // Form Submission
+        feedbackForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                rating: ratingInput.value,
+                type: document.getElementById('feedbackType').value,
+                message: document.getElementById('feedbackMessage').value.trim(),
+                email: document.getElementById('feedbackEmail').value.trim(),
+                timestamp: new Date().toISOString(),
+                page: 'department-search'
+            };
+            
+            if (formData.message.length < 5) {
+                alert('Please enter a meaningful feedback message (at least 5 characters)');
+                return;
+            }
+            
+            if (formData.rating == 0) {
+                alert('Please select a rating');
+                return;
+            }
+            
+            const submitBtn = feedbackForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Submitting...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                saveFeedback(formData);
+                
+                feedbackForm.style.display = 'none';
+                successMessage.style.display = 'block';
+                
+                setTimeout(() => {
+                    feedbackModal.style.display = 'none';
+                    resetForm();
+                    successMessage.style.display = 'none';
+                    feedbackForm.style.display = 'block';
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }, 2000);
+                
+            }, 1000);
+        });
+
+    function saveFeedback(feedback) {
+    // CORRECT ENDPOINT: /api/feedback (not /api/submit-feedback)
+    fetch('/api/feedback', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(feedback)
+    })
+    .then(response => {
+        console.log("Response status:", response.status);
+        return response.json();
+    })
+    .then(data => {
+        console.log('Server response:', data);
+        
+        if (data.success) {
+            console.log('✅ Feedback saved to server:', data);
+            
+            // Local storage backup
+            const existingFeedback = JSON.parse(localStorage.getItem('fjwu_feedback')) || [];
+            existingFeedback.push(feedback);
+            localStorage.setItem('fjwu_feedback', JSON.stringify(existingFeedback));
+        } else {
+            console.error('❌ Server error:', data.message);
+            
+            // Local storage backup
+            const existingFeedback = JSON.parse(localStorage.getItem('fjwu_feedback')) || [];
+            existingFeedback.push(feedback);
+            localStorage.setItem('fjwu_feedback', JSON.stringify(existingFeedback));
+            console.log('📱 Saved to localStorage as backup');
+        }
+    })
+    .catch(error => {
+        console.error('❌ Network error:', error);
+        
+        // Network error pe local storage
+        const existingFeedback = JSON.parse(localStorage.getItem('fjwu_feedback')) || [];
+        existingFeedback.push(feedback);
+        localStorage.setItem('fjwu_feedback', JSON.stringify(existingFeedback));
+        console.log('📱 Saved to localStorage (network error)');
+    });
+}
+
+        function resetForm() {
+            feedbackForm.reset();
+            ratingInput.value = '0';
+            stars.forEach(star => star.classList.remove('active'));
+        }
+
+        // =====================
+        // INITIALIZE PAGE
+        // =====================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("Search page loaded with working filters");
+            // Page load pe sab departments dikhao
+            displayResults(departments);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+[
+  {
+    "id": 1,
+    "qrCode": "CCS001",
+    "title": "Computer Science",
+    "url": "video-player.html?file=guide.mp4"
+  },
+  {
+    "id": 2,
+    "qrCode": "CA002",
+    "title": "Computer Arts",
+    "url": "video-player.html?file=computer_arts.mp4"
+  },
+  {
+    "id": 3,
+    "qrCode": "ENG003",
+    "title": "English Department",
+    "url": "video-player.html?file=english.mp4"
+  },
+  {
+    "id": 4,
+    "qrCode": "MPH004",
+    "title": "M.Phil Hall",
+    "url": "video-player.html?file=mphall.mp4"
+  },
+  {
+    "id": 5,
+    "qrCode": "SPT005",
+    "title": "Sports and Gymnasium",
+    "url": "video-player.html?file=sports_and_gym.mp4"
+  },
+  {
+    "id": 6,
+    "qrCode": "ISL006",
+    "title": "Department of Islamiyat",
+    "url": "video-player.html?file=islamiyat.mp4"
+  },
+  {
+    "id": 7,
+    "qrCode": "MED007",
+    "title": "Department of Media",
+    "url": "video-player.html?file=media.mp4"
+  },
+  {
+    "id": 8,
+    "qrCode": "MBD008",
+    "title": "Main Building",
+    "url": "video-player.html?file=main_building.mp4"
+  },
+  {
+    "id": 9,
+    "qrCode": "VCL009",
+    "title": "VC Lawn",
+    "url": "video-player.html?file=vc_lawn.mp4"
+  },
+  {
+    "id": 10,
+    "qrCode": "ECF010",
+    "title": "Department of Economics & Finance",
+    "url": "video-player.html?file=economics_finance.mp4"
+  },
+  {
+    "id": 11,
+    "qrCode": "CHE011",
+    "title": "Department of Chemistry",
+    "url": "video-player.html?file=chemistry.mp4"
+  },
+  {
+    "id": 12,
+    "qrCode": "PRT012",
+    "title": "Print Shop",
+    "url": "video-player.html?file=print_shop.mp4"
+  },
+  {
+    "id": 13,
+    "qrCode": "CAF013",
+    "title": "Cafeteria",
+    "url": "video-player.html?file=cafeteria.mp4"
+  },
+  {
+    "id": 14,
+    "qrCode": "TRN014",
+    "title": "Transport Office",
+    "url": "video-player.html?file=transport_office.mp4"
+  },
+  {
+    "id": 15,
+    "qrCode": "BIC015",
+    "title": "BIC Building",
+    "url": "video-player.html?file=bic_building.mp4"
+  },
+  {
+    "id": 16,
+    "qrCode": "HST016",
+    "title": "Hostel",
+    "url": "video-player.html?file=hostel.mp4"
+  },
+  {
+    "id": 17,
+    "qrCode": "ICT017",
+    "title": "ICT Lab",
+    "url": "video-player.html?file=ict_lab.mp4"
+  },
+  {
+    "id": 18,
+    "qrCode": "AUD018",
+    "title": "New Auditorium",
+    "url": "video-player.html?file=auditorium.mp4"
+  },
+  {
+    "id": 19,
+    "qrCode": "ENV019",
+    "title": "Department of Environmental Science",
+    "url": "video-player.html?file=environmental_science.mp4"
+  },
+  {
+    "id": 20,
+    "qrCode": "PRY020",
+    "title": "Prayer Room",
+    "url": "video-player.html?file=prayer_room.mp4"
+  },
+  {
+    "id": 21,
+    "qrCode": "SWE011",
+    "title": "Software Engineering Department",
+    "url": "video-player.html?file=software_engineering.mp4"
+  },
+  {
+    "id": 22,
+    "qrCode": "LIB005",
+    "title": "Library",
+    "url": "video-player.html?file=library.mp4"
+  },
+  {
+    "id": 23,
+    "qrCode": "EDU006",
+    "title": "Education Department",
+    "url": "video-player.html?file=education.mp4"
+  },
+  {
+    "id": 24,
+    "qrCode": "GNS007",
+    "title": "Gender Studies",
+    "url": "video-player.html?file=gender_studies.mp4"
+  },
+  {
+    "id": 25,
+    "qrCode": "IR008",
+    "title": "International Relations",
+    "url": "video-player.html?file=international_relations.mp4"
+  },
+  {
+    "id": 26,
+    "qrCode": "BAD009",
+    "title": "Business Administration",
+    "url": "video-player.html?file=business_admin.mp4"
+  },
+  {
+    "id": 27,
+    "qrCode": "PAD010",
+    "title": "Public Administration",
+    "url": "video-player.html?file=public_admin.mp4"
+  }
+]

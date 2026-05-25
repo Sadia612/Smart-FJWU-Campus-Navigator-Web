@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FJWU QR Scanner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- jsQR -->
+    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a3c1f 0%, #2E7D32 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* HEADER */
+        .scanner-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            padding: 0 10px;
+        }
+
+        .back-home-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .back-home-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+            background: white;
+            color: #2E7D32;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text h1 {
+            font-size: 20px;
+            margin-bottom: 3px;
+        }
+
+        .logo-text p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        /* MAIN CONTAINER */
+        .scanner-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .scanner-title {
+            text-align: center;
+            color: #2E7D32;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .scanner-title h2 {
+            font-size: 26px;
+        }
+
+        /* VIDEO BOX */
+        .video-box {
+            width: 100%;
+            margin: 0 auto 20px;
+            border: 4px solid #2E7D32;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+        }
+
+        /* CONTROLS */
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .control-btn {
+            flex: 1;
+            min-width: 160px;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .camera-btn {
+            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+            color: white;
+        }
+
+        .camera-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.4);
+        }
+
+        .gallery-btn {
+            background: linear-gradient(135deg, #1565C0 0%, #2196F3 100%);
+            color: white;
+        }
+
+        .gallery-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+        }
+
+        .home-btn {
+            background: linear-gradient(135deg, #FF9800 0%, #FFB74D 100%);
+            color: white;
+            width: 100%;
+        }
+
+        .home-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4);
+        }
+
+        /* STATUS */
+        .status-box {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+            border-left: 5px solid #2E7D32;
+        }
+
+        .status {
+            font-weight: 600;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .success {
+            color: #2E7D32;
+        }
+
+        .error {
+            color: #f44336;
+        }
+
+        /* INSTRUCTIONS */
+        .instructions {
+            background: #E8F5E9;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .instructions h3 {
+            color: #2E7D32;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .instructions ul {
+            list-style: none;
+            padding-left: 5px;
+        }
+
+        .instructions li {
+            margin: 8px 0;
+            color: #555;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .instructions i {
+            color: #2E7D32;
+            margin-top: 3px;
+        }
+
+        /* HIDDEN ELEMENTS */
+        canvas {
+            display: none;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .scanner-container {
+                padding: 20px;
+            }
+            
+            .control-btn {
+                min-width: 100%;
+            }
+            
+            .scanner-title h2 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <div class="scanner-header">
+        <button class="back-home-btn" onclick="goToHomeScreen()">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </button>
+        
+        <div class="logo-section">
+            <div class="logo-icon">
+                <i class="fas fa-qrcode"></i>
+            </div>
+            <div class="logo-text">
+                <h1>FJWU QR Scanner</h1>
+                <p>Smart Campus Navigation</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN SCANNER -->
+    <div class="scanner-container">
+        <div class="scanner-title">
+            <i class="fas fa-camera"></i>
+            <h2>Scan QR Code</h2>
+        </div>
+
+        <div class="video-box">
+            <video id="video" autoplay playsinline></video>
+        </div>
+
+        <!-- STATUS -->
+        <div class="status-box">
+            <p id="status" class="status">
+                <i class="fas fa-info-circle"></i> Ready to scan QR code
+            </p>
+        </div>
+
+        <!-- CONTROLS -->
+        <div class="controls">
+            <button class="control-btn camera-btn" onclick="startCamera()">
+                <i class="fas fa-camera"></i> Start Camera
+            </button>
+            <button class="control-btn gallery-btn" onclick="openGallery()">
+                <i class="fas fa-images"></i> Import from Gallery
+            </button>
+        </div>
+
+        <button class="control-btn home-btn" onclick="goToHomeScreen()">
+            <i class="fas fa-home"></i> Return to Home Screen
+        </button>
+
+        <!-- INSTRUCTIONS -->
+        <div class="instructions">
+            <h3><i class="fas fa-lightbulb"></i> How to Scan:</h3>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> Point camera at QR code</li>
+                <li><i class="fas fa-check-circle"></i> Keep steady for 2-3 seconds</li>
+                <li><i class="fas fa-check-circle"></i> Auto-detection will guide you</li>
+                <li><i class="fas fa-check-circle"></i> Or upload image from gallery</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- HIDDEN ELEMENTS -->
+    <canvas id="canvas"></canvas>
+    <input type="file" id="fileInput" accept="image/*">
+
+    <script>
+        // ELEMENTS
+        const video = document.getElementById("video");
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        const statusText = document.getElementById("status");
+        const fileInput = document.getElementById("fileInput");
+
+        let stream = null;
+        let scanning = false;
+
+        /* ========== NAVIGATION ========== */
+        function goToHomeScreen() {
+            stopCamera();
+            window.location.href = 'index.html';
+        }
+
+        /* ========== CAMERA FUNCTIONS ========== */
+        function startCamera() {
+            navigator.mediaDevices.getUserMedia({
+                video: { facingMode: "environment" }
+            }).then(s => {
+                stream = s;
+                video.srcObject = stream;
+                video.play();
+                scanning = true;
+                
+                // Update status
+                statusText.innerHTML = '<i class="fas fa-search"></i> Scanning QR from camera...';
+                statusText.className = "status success";
+                
+                // Start scanning loop
+                requestAnimationFrame(scanFromCamera);
+            }).catch((err) => {
+                console.error("Camera error:", err);
+                statusText.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Camera access denied';
+                statusText.className = "status error";
+            });
+        }
+
+        function scanFromCamera() {
+            if (!scanning) return;
+
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+                if (code) {
+                    onQRDetected(code.data.trim());
+                    return;
+                }
+            }
+            requestAnimationFrame(scanFromCamera);
+        }
+
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            scanning = false;
+        }
+
+        /* ========== GALLERY FUNCTIONS ========== */
+        function openGallery() {
+            stopCamera();
+            fileInput.value = "";
+            fileInput.click();
+        }
+
+        fileInput.addEventListener("change", e => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            statusText.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing image...';
+            statusText.className = "status";
+
+            const img = new Image();
+            img.onload = () => {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+                if (code) {
+                    onQRDetected(code.data.trim());
+                } else {
+                    statusText.innerHTML = '<i class="fas fa-times-circle"></i> QR not found in image';
+                    statusText.className = "status error";
+                }
+            };
+            img.src = URL.createObjectURL(file);
+        });
+
+        /* ========== QR DETECTION HANDLER ========== */
+        function onQRDetected(qrCodeID) {
+            console.log("QR Detected:", qrCodeID);
+            
+            // Stop scanning
+            stopCamera();
+            
+            // Update status
+            statusText.innerHTML = `<i class="fas fa-check-circle"></i> QR Found: ${qrCodeID}`;
+            statusText.className = "status success";
+
+            // Fetch video guide from backend
+            fetch(`/get-guide/${qrCodeID}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        // Redirect to video player
+                        window.location.href = data.url;
+                    } else {
+                        statusText.innerHTML = `<i class="fas fa-exclamation-triangle"></i> QR not found: ${qrCodeID}`;
+                        statusText.className = "status error";
+                        alert("Database mein ye ID nahi mili: " + qrCodeID);
+                        
+                        // Restart camera after 2 seconds
+                        setTimeout(() => {
+                            startCamera();
+                        }, 2000);
+                    }
+                })
+                .catch(err => {
+                    console.error("Fetch error:", err);
+                    statusText.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Network error. Please try again.';
+                    statusText.className = "status error";
+                    
+                    // Restart camera after error
+                    setTimeout(() => {
+                        startCamera();
+                    }, 2000);
+                });
+        }
+
+        /* ========== INITIALIZE ========== */
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("QR Scanner loaded");
+            
+            // Auto-start camera on page load
+            setTimeout(() => {
+                startCamera();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

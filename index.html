@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FJWU Campus Navigator</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- FONT AWESOME ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* HEADER STYLING */
+        body {
+            margin: 0;
+            padding-top: 70px;
+        }
+        
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        
+        .header-logo {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .header-logo i {
+            color: white;
+            margin-right: 10px;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .header-nav a {
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white !important;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .header-nav a:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* REPORT POPUP STYLES */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .popup-content {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #34495e;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        
+        .form-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            flex: 1;
+        }
+        
+        .cancel-btn {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        /* VIDEO BUTTON STYLING */
+        .video-link-box {
+            margin-top: 10px;
+        }
+        
+        .video-play-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .video-play-btn:hover {
+            background: linear-gradient(135deg, #256c29 0%, #43a047 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(46, 125, 50, 0.3);
+        }
+        
+        .video-play-btn i {
+            margin-right: 8px;
+        }
+        
+        /* VIDEO POPUP STYLES */
+        .video-popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .video-popup-container {
+            background: white;
+            width: 95%;
+            max-width: 900px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .video-popup-header {
+            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .video-popup-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+        
+        .video-close-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .video-close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+        
+        .video-player-wrapper {
+            padding: 20px;
+            background: #000;
+        }
+        
+        #videoPlayer {
+            width: 100%;
+            height: auto;
+            max-height: 70vh;
+            border-radius: 5px;
+        }
+        
+        .video-popup-footer {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .back-btn, .download-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-btn {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .back-btn:hover {
+            background: #5a6268;
+        }
+        
+        .download-btn {
+            background: #28a745;
+            color: white;
+        }
+        
+        .download-btn:hover {
+            background: #218838;
+        }
+        
+        /* MESSAGE STYLES */
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER WITH 3 LINKS -->
+    <div class="fixed-header">
+        <div class="header-logo">
+            <i class="fas fa-graduation-cap"></i> FJWU Navigator
+        </div>
+        
+        <div class="header-nav">
+            <a href="search-departments.html">
+                <i class="fas fa-search"></i> Search Dept
+            </a>
+            
+            <a href="#" onclick="openReportPopup()">
+                <i class="fas fa-exclamation-circle"></i> Report Issue
+            </a>
+            
+            <a href="#footer">
+                <i class="fas fa-address-book"></i> Contact
+            </a>
+        </div>
+    </div>
+
+    <!-- REPORT ISSUE POPUP -->
+    <div id="reportPopup" class="popup-overlay">
+        <div class="popup-content">
+            <h3 style="color: #2E7D32; margin-top: 0; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px;">
+                <i class="fas fa-exclamation-triangle"></i> Report Scanning Issue
+            </h3>
+            
+            <<form id="reportForm" onsubmit="simpleSubmitReport(event)">
+                <div class="form-group">
+                    <label for="userName">Your Name *</label>
+                    <input type="text" id="userName" required placeholder="Enter your name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="userEmail">Email/Phone *</label>
+                    <input type="text" id="userEmail" required placeholder="Email or phone number">
+                </div>
+                
+                <div class="form-group">
+                    <label for="issueType">Issue Type *</label>
+                    <select id="issueType" required>
+                        <option value="">Select issue type</option>
+                        <option value="qr_not_scanning">QR Code Not Scanning</option>
+                        <option value="wrong_location">Wrong Location Shown</option>
+                        <option value="video_not_playing">Video Not Playing</option>
+                        <option value="broken_link">Broken Link</option>
+                        <option value="outdated_info">Outdated Information</option>
+                        <option value="other">Other Issue</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="issueDetails">Details *</label>
+                    <textarea id="issueDetails" rows="4" required 
+                              placeholder="Please describe the issue in detail..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" placeholder="Where did this happen?">
+                </div>
+                
+                <div class="form-buttons">
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Submit Report
+                    </button>
+                    <button type="button" onclick="closeReportPopup()" class="cancel-btn">
+                        Cancel
+                    </button>
+                </div>
+                
+                <p style="margin-top: 15px; font-size: 0.8rem; color: #7f8c8d; text-align: center;">
+                    <i class="fas fa-info-circle"></i> Report will be stored in backend database.
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- VIDEO POPUP PLAYER -->
+    <div id="videoPopup" class="video-popup-overlay">
+        <div class="video-popup-container">
+            <div class="video-popup-header">
+                <h3 id="videoPopupTitle">Video Player</h3>
+                <button onclick="closeVideoPopup()" class="video-close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="video-player-wrapper">
+                <video id="videoPlayer" controls controlsList="nodownload">
+                    <source id="videoSource" src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="video-popup-footer">
+                <button onclick="closeVideoPopup()" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Page
+                </button>
+                <button onclick="downloadVideo()" class="download-btn">
+                    <i class="fas fa-download"></i> Download
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <header class="hero-header">
+        <img src="images/fjwu_building _1.jpeg" alt="FJWU Building" class="header-bg">
+        <div class="header-overlay"></div>
+        <div class="container hero-grid">
+            <div class="hero-text">
+                <h1 class="hero-title">Welcome To FJWU Smart Campus Navigation System</h1>
+                <p class="hero-desc">
+                    Our navigation system is designed to make your campus experience smooth,
+                    enjoyable and stress-free. Whether you're a fresher or a visitor, we guide you
+                    easily around the university.
+                </p>
+                <button class="hero-btn" onclick="goToDepartments()">
+                    <i class="fas fa-compass"></i> Explore Departments
+                </button>
+            </div>
+            <div class="hero-image-box">
+                <img src="images/scaniamge.jpeg" alt="Campus Image" class="hero-image">
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <!-- How It Works -->
+        <section class="how-it-works">
+            <div class="container">
+                <h2 class="section-title"><i class="fas fa-cogs"></i> How It Works</h2>
+                <div class="steps-container">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3 class="step-title"><i class="fas fa-qrcode"></i> Find QR Codes</h3>
+                            <p class="step-desc">QR codes are placed at key locations around campus</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3 class="step-title"><i class="fas fa-camera"></i> Scan with Phone</h3>
+                            <p class="step-desc">Use your smartphone camera to scan the code</p>
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3 class="step-title"><i class="fas fa-video"></i> Watch Guide Video</h3>
+                            <p class="step-desc">Get instant video directions to your destination</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Locations with Video Links -->
+        <section class="locations-section">
+            <div class="container">
+                <h2 class="section-title"><i class="fas fa-map-marker-alt"></i> Popular Campus Locations</h2>
+                
+                <!-- First Row - 3 Locations -->
+                <div class="locations-grid-row">
+                    <!-- Main Building -->
+                    <div class="location-box">
+                        <div class="location-img-box">
+                            <img src="images/main-building.jpg" alt="Main Building" class="location-img">
+                            <div class="img-overlay"></div>
+                        </div>
+                        <div class="location-info">
+                            <div class="location-icon"><i class="fas fa-university"></i></div>
+                            <h3 class="location-title highlight">Main Building</h3>
+                            <p class="location-desc">Central administration and main classrooms</p>
+                            <div class="video-link-box">
+                                <button onclick="playVideoPopup('videos/main_building.mp4', 'Main Building Tour')" 
+                                        class="video-play-btn">
+                                    <i class="fas fa-play-circle"></i> Watch Video
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- VC Lawn -->
+                    <div class="location-box">
+                        <div class="location-img-box">
+                            <img src="images/vc-lawn.jpg" alt="VC Lawn" class="location-img">
+                            <div class="img-overlay"></div>
+                        </div>
+                        <div class="location-info">
+                            <div class="location-icon"><i class="fas fa-tree"></i></div>
+                            <h3 class="location-title highlight">VC Lawn</h3>
+                            <p class="location-desc">Beautiful green space for relaxation</p>
+                            <div class="video-link-box">
+                                <button onclick="playVideoPopup('videos/vc_lawn.mp4', 'VC Lawn Tour')" 
+                                        class="video-play-btn">
+                                    <i class="fas fa-play-circle"></i> Watch Video
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sports & Gym -->
+                    <div class="location-box">
+                        <div class="location-img-box">
+                            <img src="images/sports-gym.jpg" alt="Sports & Gym" class="location-img">
+                            <div class="img-overlay"></div>
+                        </div>
+                        <div class="location-info">
+                            <div class="location-icon"><i class="fas fa-dumbbell"></i></div>
+                            <h3 class="location-title highlight">Sports & Gymnasium</h3>
+                            <p class="location-desc">Fitness center and sports facilities</p>
+                            <div class="video-link-box">
+                                <button onclick="playVideoPopup('videos/sports_and_gym.mp4', 'Sports & Gym Tour')" 
+                                        class="video-play-btn">
+                                    <i class="fas fa-play-circle"></i> Watch Video
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Second Row - 3 More Locations -->
+                <div class="locations-grid-row">
+                    <!-- MP Hall -->
+                    <div class="location-box">
+                        <div class="location-img-box">
+                            <img src="images/mp-hall.jpg" alt="MP Hall" class="location-img">
+                            <div class="img-overlay"></div>
+                        </div>
+                        <div class="location-info">
+                            <div class="location-icon"><i class="fas fa-theater-masks"></i></div>
+                            <h3 class="location-title highlight">MP Hall</h3>
+                            <p class="location-desc">Multi-purpose hall for events</p>
+                            <div class="video-link-box">
+                                <button onclick="playVideoPopup('videos/mphall.mp4', 'MP Hall Tour')" 
+                                        class="video-play-btn">
+                                    <i class="fas fa-play-circle"></i> Watch Video
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Auditorium -->
+                    <div class="location-box">
+                        <div class="location-img-box">
+                            <img src="images/auditorium.jpg" alt="Auditorium" class="location-img">
+                            <div class="img-overlay"></div>
+                        </div>
+                        <div class="location-info">
+                            <div class="location-icon"><i class="fas fa-microphone-alt"></i></div>
+                            <h3 class="location-title highlight">Auditorium</h3>
+                            <p class="location-desc">Large venue for seminars and conferences</p>
+                            <div class="video-link-box">
+                                <button onclick="playVideoPopup('videos/auditorium.mp4', 'Auditorium Tour')" 
+                                        class="video-play-btn">
+                                    <i class="fas fa-play-circle"></i> Watch Video
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cafeteria -->
+                    <div class="location-box">
+                        <div class="location-img-box">
+                            <img src="images/cafeteria.jpg" alt="Cafeteria" class="location-img">
+                            <div class="img-overlay"></div>
+                        </div>
+                        <div class="location-info">
+                            <div class="location-icon"><i class="fas fa-coffee"></i></div>
+                            <h3 class="location-title highlight">Cafeteria</h3>
+                            <p class="location-desc">Food court and dining area</p>
+                            <div class="video-link-box">
+                                <button onclick="playVideoPopup('videos/cafeteria.mp4', 'Cafeteria Tour')" 
+                                        class="video-play-btn">
+                                    <i class="fas fa-play-circle"></i> Watch Video
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="footer-logo-box">
+                        <div class="footer-logo"><i class="fas fa-graduation-cap"></i></div>
+                    </div>
+                    <div class="footer-brand-text">
+                        <h2>FJWU Campus Navigator</h2>
+                        <p class="tagline"><i class="fas fa-qrcode"></i> Smart Scan for Easy Navigation</p>
+                    </div>
+                </div>
+                <div class="footer-contact">
+                    <div class="contact-item">
+                        <div class="contact-label"><i class="fas fa-envelope"></i> Email</div>
+                        <div class="contact-value">
+                            <a href="https://www.fjwu.edu.pk" target="_blank" class="email-link">
+                                www.fjwu.edu.pk
+                            </a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-label"><i class="fas fa-phone"></i> Phone</div>
+                        <div class="contact-value">+92 51 123 4567</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-label"><i class="fas fa-map-marker-alt"></i> Address</div>
+                        <div class="contact-value">Fatima Jinnah Women University, Rawalpindi</div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="copyright">
+                <p><i class="far fa-copyright"></i> 2024 FJWU Campus Navigator.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT FILES -->
+   <script>
+    // Simple Report Manager (Without Database View)
+    class ReportManager {
+        constructor() {
+            this.apiUrl = '/api/report-issue';
+        }
+        
+        async submitReport(formData) {
+            const reportData = {
+                name: formData.name,
+                contact: formData.contact,
+                issueType: formData.issueType,
+                details: formData.details,
+                location: formData.location,
+                page: 'home'
+            };
+            
+            try {
+                const response = await fetch(this.apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(reportData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    return {
+                        success: true,
+                        message: result.message,
+                        reportId: result.reportId
+                    };
+                } else {
+                    throw new Error(result.message);
+                }
+                
+            } catch (error) {
+                console.log('⚠️ Report submission failed:', error.message);
+                
+                // Save locally as fallback
+                const pendingReport = {
+                    ...reportData,
+                    id: Date.now(),
+                    timestamp: new Date().toISOString()
+                };
+                
+                let pendingReports = JSON.parse(localStorage.getItem('pending_reports') || '[]');
+                pendingReports.push(pendingReport);
+                localStorage.setItem('pending_reports', JSON.stringify(pendingReports));
+                
+                return {
+                    success: true,
+                    message: 'Report saved locally. Will sync when online.',
+                    reportId: pendingReport.id,
+                    local: true
+                };
+            }
+        }
+    }
+    
+    // Initialize Report Manager
+    const reportManager = new ReportManager();
+    
+    // Popup Functions
+    function openReportPopup() {
+        document.getElementById('reportPopup').style.display = 'flex';
+    }
+    
+    function closeReportPopup() {
+        document.getElementById('reportPopup').style.display = 'none';
+    }
+    
+    // Main submit function
+// SIMPLE FORM SUBMIT FUNCTION
+async function simpleSubmitReport(event) {
+    event.preventDefault();
+    console.log("Form submit button clicked!");
+    
+    // Get form values
+    const formData = {
+        name: document.getElementById('userName').value.trim(),
+        contact: document.getElementById('userEmail').value.trim(),
+        issueType: document.getElementById('issueType').value,
+        details: document.getElementById('issueDetails').value.trim(),
+        location: document.getElementById('location').value.trim()
+    };
+    
+    console.log("Form data:", formData);
+    
+    // Validate
+    if (!formData.name || !formData.contact || !formData.issueType || !formData.details) {
+        alert("Please fill all required fields!");
+        return;
+    }
+    
+    // Show loading
+    const submitBtn = event.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+    submitBtn.disabled = true;
+    
+    try {
+        // Send to server
+        const response = await fetch('/api/report-issue', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const result = await response.json();
+        console.log("Server response:", result);
+        
+        if (result.success) {
+            alert("Thank You!\n\nYour feedback has been submitted successfully.");
+            document.getElementById('reportForm').reset();
+            document.getElementById('reportPopup').style.display = 'none';
+        } else {
+            alert("❌ Error: " + result.message);
+        }
+        
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Network error. Please try again.");
+    } finally {
+        // Reset button
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }
+}
+    // Show success message
+    function showSuccessMessage(message, isLocal = false) {
+        const color = isLocal ? '#f39c12' : '#27ae60';
+        const icon = isLocal ? 'fa-save' : 'fa-check-circle';
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.innerHTML = `
+            <div style="
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: ${color};
+                color: white;
+                padding: 15px 25px;
+                border-radius: 5px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                z-index: 4000;
+                animation: slideIn 0.5s ease;
+                max-width: 400px;
+            ">
+                <i class="fas ${icon}"></i>
+                <strong> ${isLocal ? 'Saved Locally' : 'Success!'}</strong>
+                <br>
+                <small>${message}</small>
+            </div>
+        `;
+        
+        document.body.appendChild(messageDiv);
+        
+        setTimeout(() => {
+            messageDiv.style.animation = 'slideOut 0.5s ease';
+            setTimeout(() => messageDiv.remove(), 500);
+        }, 5000);
+    }
+    
+    // Show error message
+    function showMessage(text, type = 'info') {
+        const color = type === 'error' ? '#e74c3c' : '#3498db';
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.innerHTML = `
+            <div style="
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: ${color};
+                color: white;
+                padding: 15px 25px;
+                border-radius: 5px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                z-index: 4000;
+                animation: slideIn 0.5s ease;
+            ">
+                <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                ${text}
+            </div>
+        `;
+        
+        document.body.appendChild(messageDiv);
+        
+        setTimeout(() => {
+            messageDiv.style.animation = 'slideOut 0.5s ease';
+            setTimeout(() => messageDiv.remove(), 500);
+        }, 3000);
+    }
+    
+    // Video Popup Functions
+    let currentVideoSrc = '';
+    
+    function playVideoPopup(videoPath, title) {
+        currentVideoSrc = videoPath;
+        
+        document.getElementById('videoSource').src = videoPath;
+        document.getElementById('videoPopupTitle').textContent = title;
+        
+        const videoPlayer = document.getElementById('videoPlayer');
+        videoPlayer.load();
+        document.getElementById('videoPopup').style.display = 'flex';
+        
+        setTimeout(() => {
+            videoPlayer.play().catch(e => console.log('Auto-play prevented:', e));
+        }, 500);
+    }
+    
+    function closeVideoPopup() {
+        const videoPlayer = document.getElementById('videoPlayer');
+        videoPlayer.pause();
+        videoPlayer.currentTime = 0;
+        document.getElementById('videoPopup').style.display = 'none';
+    }
+    
+    function downloadVideo() {
+        if (currentVideoSrc) {
+            const link = document.createElement('a');
+            link.href = currentVideoSrc;
+            link.download = currentVideoSrc.split('/').pop();
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+    
+    // Close popups with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeReportPopup();
+            closeVideoPopup();
+        }
+    });
+    
+    // Close video popup when clicking outside
+    document.getElementById('videoPopup').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeVideoPopup();
+        }
+    });
+    
+    // Close report popup when clicking outside
+    document.getElementById('reportPopup').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeReportPopup();
+        }
+    });
+    
+    // Department navigation
+    function goToDepartments() {
+        window.location.href = 'search-departments.html';
+    }
+    
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('FJWU Campus Navigator loaded');
+    });
+</script>
+</body>
+</html>

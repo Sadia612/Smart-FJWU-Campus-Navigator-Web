@@ -1,0 +1,149 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    overflow: hidden;
+    user-select: none;
+}
+
+/* Splash Screen Container */
+.splash-screen {
+    background: linear-gradient(135deg, #006400, #008000, #00AA00);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+/* Logo Styling */
+.logo-container {
+    margin-bottom: 30px;
+    animation: logoBounce 2s ease-in-out;
+}
+
+.logo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid white;
+    padding: 8px;
+    background: white;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+/* Text Container */
+.text-container {
+    margin-bottom: 40px;
+}
+
+/* Main Title Animation */
+.main-title {
+    font-size: 2.8rem;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    animation: titleSlideIn 1.5s ease-out 0.5s forwards;
+}
+
+/* Subtitle Animation */
+.subtitle {
+    font-size: 1.4rem;
+    color: white;
+    font-weight: 500;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    animation: subtitleFadeIn 2s ease-out 1.5s forwards;
+}
+
+/* Loading Container */
+.loading-container {
+    width: 300px;
+    margin-top: 30px;
+}
+
+.loading-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.loading-progress {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #FFFFFF, #E8F5E8);
+    border-radius: 10px;
+    animation: loadingFill 5s ease-in-out forwards;
+}
+
+.loading-text {
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* ========== ANIMATIONS ========== */
+
+/* Logo Bounce Animation */
+@keyframes logoBounce {
+    0% {
+        opacity: 0;
+        transform: scale(0.5) translateY(-50px);
+    }
+    50% {
+        transform: scale(1.1) translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Title Slide In Animation */
+@keyframes titleSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Subtitle Fade In Animation */
+@keyframes subtitleFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading Bar Fill Animation */
+@keyframes loadingFill {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 100%;
+    }
+}

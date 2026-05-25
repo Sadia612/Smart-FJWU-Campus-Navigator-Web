@@ -1,0 +1,112 @@
+[
+  {
+    "id": 1,
+    "rating": 4,
+    "type": "compliment",
+    "message": "good job",
+    "email": "sadia@gmail.com",
+    "page": "department-search",
+    "date": "2025-12-28T21:25:31.168Z",
+    "ip": "::1"
+  },
+  {
+    "id": 2,
+    "rating": 4,
+    "type": "compliment",
+    "message": "useful webapp",
+    "email": "dehr44058@gmail.com",
+    "page": "department-search",
+    "date": "2025-12-28T21:26:34.141Z",
+    "ip": "::1"
+  },
+  {
+    "id": 3,
+    "rating": 4,
+    "type": "compliment",
+    "message": "nice  job",
+    "email": "mehmoona@gmail.com",
+    "page": "department-search",
+    "date": "2025-12-29T08:00:52.385Z",
+    "ip": "::1"
+  },
+  {
+    "id": 4,
+    "rating": 5,
+    "type": "compliment",
+    "message": "good job",
+    "email": "mehmoona@gmail.com",
+    "page": "department-search",
+    "date": "2025-12-29T10:48:30.563Z",
+    "ip": "::1"
+  },
+  {
+    "id": 5,
+    "rating": 5,
+    "type": "compliment",
+    "message": "good job",
+    "email": "mehmoona@gmail.com",
+    "page": "department-search",
+    "date": "2025-12-29T10:48:53.091Z",
+    "ip": "::1"
+  },
+  {
+    "id": 6,
+    "rating": 5,
+    "type": "compliment",
+    "message": "nice jon",
+    "email": "dehr44058@gmail.com",
+    "page": "department-search",
+    "date": "2025-12-29T15:21:04.807Z",
+    "ip": "::1"
+  },
+  {
+    "id": 7,
+    "rating": 5,
+    "type": "compliment",
+    "message": "nice job",
+    "email": "dehr44058@gmail.com",
+    "page": "department-search",
+    "date": "2025-12-29T18:45:44.019Z",
+    "ip": "::1"
+  },
+  {
+    "id": 8,
+    "rating": 5,
+    "type": "compliment",
+    "message": "nice job",
+    "email": "dehr44058@gmail.com",
+    "page": "department-search",
+    "date": "2025-12-30T19:20:45.523Z",
+    "ip": "::1"
+  },
+  {
+    "id": 9,
+    "rating": 5,
+    "type": "compliment",
+    "message": "good job",
+    "email": "ayesha@gmail.com",
+    "page": "department-search",
+    "date": "2026-01-12T01:57:28.002Z",
+    "ip": "::1"
+  },
+  {
+    "id": 10,
+    "rating": 5,
+    "type": "compliment",
+    "message": "NICE JOB",
+    "email": "SAEED@GMAIL.COM",
+    "page": "department-search",
+    "date": "2026-01-21T16:13:13.834Z",
+    "ip": "::1"
+  },
+  {
+    "id": 11,
+    "rating": 5,
+    "type": "compliment",
+    "message": "Nice job",
+    "email": "23-20911-075@cs.fjwu.edu.pk",
+    "page": "department-search",
+    "date": "2026-01-21T19:38:52.850Z",
+    "ip": "::1"
+  }
+]
